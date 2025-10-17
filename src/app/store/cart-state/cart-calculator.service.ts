@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { effect  } from '@angular/core';
 interface CartItem {
   price: number | string;
   quantity?: number;

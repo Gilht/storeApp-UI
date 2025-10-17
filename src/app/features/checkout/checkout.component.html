@@ -3,7 +3,8 @@
     <div class="custom-flex-col">
       <h1 class="custom-heading">Checkout page</h1>
     </div>
-    <div *ngIf="(cartService.cart$| async)?.productsCount">
+    @if (cartStore().productsCount) {
+    <div>
       <div class="custom-container-lg">
         <div class="flex justify-end mb-4">
           <button (click)="clearAll()" class="btn">Clear all</button>
@@ -18,35 +19,46 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of (cartService.cart$ | async)?.products; let i = index"
-              class="border-b border-gray-200">
-              <td class="py-3">{{product.title | slice:0:35}}...</td>
-              <td class="py-3">{{product.quantity}}</td>
-              <td class="custom-table-cell-price">{{ product.subTotal || product.price | currency}}</td>
+            @for (product of cartStore().products; track product.id) {
+            <tr class="border-b border-gray-200">
+              <td class="py-3">{{ product.title | slice : 0 : 35 }}...</td>
+              <td class="py-3">{{ product.quantity }}</td>
+              <td class="custom-table-cell-price">
+                {{ product.subTotal || product.price | currency }}
+              </td>
               <td>
                 <div class="remove-container">
-                  <app-remove-product (onClickRemoveProduct)="onRemoveProduct(product.id)" class="custom-flex-item" />
+                  <app-remove-product
+                    (onClickRemoveProduct)="onRemoveProduct(product.id)"
+                    class="custom-flex-item"
+                  />
                 </div>
               </td>
             </tr>
+            }
           </tbody>
           <tfoot>
             <tr>
               <td colspan="2">Total:</td>
-              <td colspan="4" class="custom-table-cell-total">{{(cartService.cart$ | async)?.totalAmount | currency}}
+              <td colspan="4" class="custom-table-cell-total">
+                {{ cartStore().totalAmount | currency }}
               </td>
             </tr>
           </tfoot>
         </table>
         <div class="p-2 custom-flex-end">
-          <button (click)="onProceedToPay()" class="custom-pay-button">Pay now</button>
+          <button (click)="onProceedToPay()" class="custom-pay-button">
+            Pay now
+          </button>
         </div>
       </div>
     </div>
-    <div *ngIf="(cartService.cart$ | async)?.productsCount === 0">
-      <div class="custom-flex-col">
-        <h3 class="custom-empty-cart-heading">The shopping cart is empty</h3>
+    } @else {
+      <div>
+        <div class="custom-flex-col">
+          <h3 class="custom-empty-cart-heading">The shopping cart is empty</h3>
+        </div>
       </div>
-    </div>
+    } 
   </div>
 </section>

@@ -1,4 +1,4 @@
-import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [AddToCartComponent, CurrencyPipe, NgIf, NgFor, AsyncPipe],
+  imports: [AddToCartComponent, AsyncPipe, CurrencyPipe],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
 })

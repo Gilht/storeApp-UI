@@ -1,3 +1,4 @@
+import { Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartStore } from 'src/app/store/cart-state/cart-state.service';
 
@@ -26,5 +27,5 @@ export interface PaymentResult {
 }
 
 export interface PaymentProcessor {
-  processPay(cart: Observable<CartStore>): Observable<PaymentResult>;
+  processPay(cart: Signal<CartStore>): Signal<PaymentResult>;
 }

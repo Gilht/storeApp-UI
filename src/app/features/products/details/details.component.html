@@ -1,24 +1,40 @@
 <section class="product-section">
-  <div class="product-container" *ngIf="product$ | async as product">
-    <div class="product-wrapper">
-      <img [alt]="product.title" class="product-image" [src]="product?.image">
-      <div class="product-details">
-        <h2 class="product-category">{{product?.category}}</h2>
-        <h1 class="product-title">{{product?.title}}</h1>
-        <div class="my-4 flex-space-between">
-          <div class="product-reviews">
-            <span *ngFor="let star of starsArray; let index = index">
-              <span *ngIf="product.rating.rate" [innerHTML]="getStarSVG(index, product.rating.rate)"></span>
-            </span>
-            <span class="ml-3">{{product?.rating?.count}} reviews</span>
+  @if (product$ | async; as product) {
+    <div class="product-container">
+      <div class="product-wrapper">
+        <img
+          [alt]="product.title"
+          class="product-image"
+          [src]="product?.image"
+        />
+        <div class="product-details">
+          <h2 class="product-category">{{ product?.category }}</h2>
+          <h1 class="product-title">{{ product?.title }}</h1>
+
+          <div class="my-4 flex-space-between">
+            <div class="product-reviews">
+              @for (star of starsArray; track $index) {
+                <span>
+                  @if (product.rating.rate) {
+                    <span [innerHTML]="getStarSVG($index, product.rating.rate)"></span>
+                  }
+                </span>
+              }
+              <span class="ml-3">{{ product?.rating?.count }} reviews</span>
+            </div>
           </div>
-        </div>
-        <p class="product-description">{{product?.description}}</p>
-        <div class="flex">
-          <span class="product-price">{{product?.price | currency}}</span>
-          <app-add-to-cart class="ml-auto" (addToCartEvent)="onAddToCart(product)" />
+
+          <p class="product-description">{{ product?.description }}</p>
+
+          <div class="flex">
+            <span class="product-price">{{ product?.price | currency }}</span>
+            <app-add-to-cart
+              class="ml-auto"
+              (addToCartEvent)="onAddToCart(product)"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </section>
