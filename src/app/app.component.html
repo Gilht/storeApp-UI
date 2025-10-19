@@ -1,9 +1,9 @@
 <div class="flex flex-col h-screen">
-  <app-header [cart]="cart$ | async" />
-  <ng-container *ngIf="currentRoute === '' || currentRoute === 'products'">
+  <app-header [cart]="cart()" />
+  @if (currentRoute() === '' || currentRoute() === 'products') {
     <app-hero />
     <app-category-filter />
-  </ng-container>
+  }
   <main class="flex-grow">
     <app-spinner />
     <router-outlet />

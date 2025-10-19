@@ -1,5 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CategoryFilterComponent } from '@features/categories/category-filter/category-filter.component';
 import { FooterComponent } from '@layout/footer/footer.component';
@@ -18,16 +17,14 @@ import { CartStateService } from 'src/app/store/cart-state/cart-state.service';
     CategoryFilterComponent,
     SpinnerComponent,
     FooterComponent,
-    AsyncPipe,
-    NgIf,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  currentRoute = '';
-  readonly cart$ = inject(CartStateService).cart$;
+  currentRoute = signal('');
+  readonly cart = inject(CartStateService).cart;
 
   private readonly _router = inject(Router);
 
@@ -35,7 +32,7 @@ export class AppComponent {
     this._router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.currentRoute = event.urlAfterRedirects.slice(1);
+        this.currentRoute.set(event.urlAfterRedirects.slice(1));
       });
   }
 }

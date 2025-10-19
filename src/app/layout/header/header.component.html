@@ -5,7 +5,7 @@
       <a routerLink="/products" class="mr-6">Products</a>
       <a routerLink="/users/login" class="mr-6">Login</a>
       <a routerLink="/users/register" class="mr-6">Register</a>
-      <div class="relative" (mouseenter)="showCart = true" (mouseleave)="showCart = false">
+      <div class="relative" (mouseenter)="showCart.set(true)" (mouseleave)="showCart.set(false)">
         <a routerLink="/checkout" class="flex items-center">
           <svg fill="none" height="25" viewBox="0 0 15 15" width="25" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -18,22 +18,27 @@
               d="M12.5 12C11.6716 12 11 12.6716 11 13.5C11 14.3284 11.6716 15 12.5 15C13.3284 15 14 14.3284 14 13.5C14 12.6716 13.3284 12 12.5 12ZM12 13.5C12 13.2239 12.2239 13 12.5 13C12.7761 13 13 13.2239 13 13.5C13 13.7761 12.7761 14 12.5 14C12.2239 14 12 13.7761 12 13.5Z"
               fill="black" fill-rule="evenodd" />
           </svg>
-          <span class="cart-info" *ngIf="cart?.productsCount">{{ cart?.productsCount }}</span>
+          @if (cart()?.productsCount) {
+            <span class="cart-info">{{ cart()?.productsCount }}</span>
+          }
         </a>
 
-        <div [ngClass]="{'show-cart-animation': showCart}" class="cart-dropdown"
-          *ngIf="showCart && cart?.productsCount">
-          <div class="flex-space-between" *ngFor="let product of cart?.products">
-            <span>{{ product.quantity}} {{ product.title | slice: 0: 10 }}</span>
-            <span> {{ product.subTotal || product.price | currency }}</span>
+        @if (showCart() && cart()?.productsCount) {
+          <div [ngClass]="{'show-cart-animation': showCart()}" class="cart-dropdown">
+            @for (product of cart()?.products; track product.id) {
+              <div class="flex-space-between">
+                <span>{{ product.quantity}} {{ product.name | slice: 0: 10 }}</span>
+                <span> {{ product.subTotal || product.price | currency }}</span>
+              </div>
+            }
+            <hr class="border-divider" />
+            <div class="cart-total">
+              Total:
+              <span class="not-italic font-bold">
+                {{ cart()?.totalAmount | currency }}</span>
+            </div>
           </div>
-          <hr class="border-divider" />
-          <div class="cart-total">
-            Total:
-            <span class="not-italic font-bold">
-              {{ cart?.totalAmount | currency }}</span>
-          </div>
-        </div>
+        }
       </div>
     </div>
   </div>

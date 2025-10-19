@@ -1,35 +1,80 @@
-import { AsyncPipe, NgFor } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CartStateService } from 'src/app/store/cart-state/cart-state.service';
 
 import { CardComponent } from '@features/products/card/card.component';
 import { Product } from '@features/products/product.interface';
 import { ProductsService } from '@features/products/products.service';
+import { ProductSkeletonComponent } from '@shared/ui/product-skeleton/product-skeleton.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CardComponent, AsyncPipe, NgFor],
+  imports: [CardComponent, FormsModule, ProductSkeletonComponent],
   styleUrl: './products.component.scss',
   templateUrl: 'products.component.html',
 })
-export default class ProductsComponent implements OnInit {
+export default class ProductsComponent {
   private readonly _route = inject(ActivatedRoute);
-  private readonly _productsService = inject(ProductsService);
+  readonly productsService = inject(ProductsService);
   private readonly _cartService = inject(CartStateService);
 
-  products$ = this._productsService.products$;
+  readonly products = this.productsService.products;
+  readonly currentPage = this.productsService.currentPage;
+  readonly totalPages = this.productsService.totalPages;
+  readonly totalProducts = this.productsService.totalProducts;
+  readonly isLoading = this.productsService.isLoading;
+  readonly searchTerm = signal('');
 
-  ngOnInit() {
-    this._route.queryParams.subscribe((params) => {
-      const category = params['category'] || 'all';
-      this._productsService.filterProductsByCategory(category);
-    });
+  private readonly queryParams = toSignal(this._route.queryParams);
+
+  constructor() {
+    effect(() => {
+      const params = this.queryParams();
+      if (params) {
+        const category = params['category'] || 'all';
+        this.productsService.filterProductsByCategory(category);
+      }
+    }, { allowSignalWrites: true });
   }
 
   onAddToCart(product: Product): void {
     this._cartService.addToCart(product);
+  }
+
+  onSearch(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.searchTerm.set(target.value);
+    this.productsService.searchProducts(target.value);
+  }
+
+  onNextPage(): void {
+    this.productsService.nextPage();
+  }
+
+  onPreviousPage(): void {
+    this.productsService.previousPage();
+  }
+
+  onGoToPage(page: number): void {
+    this.productsService.goToPage(page);
+  }
+
+  getPageNumbers(): number[] {
+    const total = this.totalPages();
+    const current = this.currentPage();
+    const pages: number[] = [];
+
+    const start = Math.max(0, current - 2);
+    const end = Math.min(total, current + 3);
+
+    for (let i = start; i < end; i++) {
+      pages.push(i);
+    }
+
+    return pages;
   }
 
   trackById(index: number, product: Product): number {

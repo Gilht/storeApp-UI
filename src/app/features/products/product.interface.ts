@@ -1,17 +1,44 @@
-interface Rating {
-  rate: number;
-  count: number;
+export interface Category {
+  id: number;
+  name: string;
+  active: boolean;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+  active: boolean;
 }
 
 export interface Product {
   id: number;
-  title: string;
-  price: string;
-  category: string;
+  name: string;
+  code: string;
   description: string;
-  image: string;
-  rating: Rating;
-  quantity: number;
-  subTotal: number;
-  isDesired: boolean;
+  price: string;
+  salePrice: string;
+  active: boolean;
+  category: Category | null;
+  brand: Brand | null;
+  quantity?: number;
+  subTotal?: number;
+  isDesired?: boolean;
+}
+
+export interface ProductsResponse {
+  traceId: string;
+  payload: {
+    data: Product[];
+    total: number;
+    page?: number;
+    pageSize?: number;
+    totalPages?: number;
+  };
+}
+
+export interface PaginationParams {
+  page: number;
+  pageSize: number;
+  search?: string;
+  category?: string;
 }

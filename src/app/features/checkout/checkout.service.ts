@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CheckoutService implements PaymentProcessor {
-  processPay(cart: Observable<CartStore>): Observable<PaymentResult> {
+  processPay(cart: CartStore): Observable<PaymentResult> {
     console.warn('Method not implemented.', cart);
     throw new Error('Method not implemented.');
   }

@@ -1,12 +1,11 @@
-import { AsyncPipe, NgFor } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoryService } from '@features/categories/categories.service';
 
 @Component({
   selector: 'app-category-filter',
   standalone: true,
-  imports: [NgFor, AsyncPipe],
+  imports: [],
   styleUrl: './category-filter.component.scss',
   template: `
     <h2 class="heading">
@@ -14,23 +13,27 @@ import { CategoryService } from '@features/categories/categories.service';
       categories
     </h2>
     <ul class="list-container">
-      <!-- TODO: Can be an  component -->
       <li>
         <button type="button" (click)="onClick('all')" class="btn btn-hover">
           {{ 'ALL' }}
         </button>
       </li>
-      <!-- TODO: Can be an  component -->
-      <li *ngFor="let category of categories$ | async; trackBy: trackById">
+      @for (category of categories$; track category) {
+      <li>
         <button type="button" (click)="onClick(category)" class="btn btn-hover">
           {{ category }}
         </button>
       </li>
+      }
     </ul>
   `,
 })
-export class CategoryFilterComponent {
-  readonly categories$ = inject(CategoryService).categories$;
+export class CategoryFilterComponent implements OnInit {
+  readonly categories$ = inject(CategoryService).categories$.value;
+  ngOnInit(): void {
+    // Component initialization logic can go here if needed
+    console.log('CategoryFilterComponent initialized', this.categories$);
+  }
 
   private readonly _router = inject(Router);
 
@@ -40,9 +43,5 @@ export class CategoryFilterComponent {
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
-  }
-
-  trackById(index: number, category: string): string {
-    return category;
   }
 }
