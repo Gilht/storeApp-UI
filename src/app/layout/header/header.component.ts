@@ -30,4 +30,9 @@ export class HeaderComponent {
   onLogout() {
     this.auth.logout();
   }
+
+  findAdminRole(): boolean {
+    const user = this.auth.getUserInfo();
+    return user?.roles.includes('ADMIN') ?? false;
+  }
 }
