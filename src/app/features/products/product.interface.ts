@@ -10,13 +10,25 @@ export interface Brand {
   active: boolean;
 }
 
+export interface ProductRequest {
+  id: number;
+  name: string;
+  code: string;
+  description: string;
+  price: number;
+  salePrice: number;
+  active: boolean;
+  category: number;
+  brand: number; 
+}
+
 export interface Product {
   id: number;
   name: string;
   code: string;
   description: string;
-  price: string;
-  salePrice: string;
+  price: number;
+  salePrice: number;
   active: boolean;
   category: Category | null;
   brand: Brand | null;

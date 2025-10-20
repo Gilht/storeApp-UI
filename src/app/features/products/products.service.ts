@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '@envs/environment';
 
-import { PaginationParams, Product, ProductsResponse } from '@features/products/product.interface';
+import { PaginationParams, Product, ProductRequest, ProductsResponse } from '@features/products/product.interface';
 import { map, Observable, tap } from 'rxjs';
 import { APIService } from './../../api/api.service';
 
@@ -109,5 +109,22 @@ export class ProductsService {
       ...product,
       quantity: 0,
     }));
+  }
+
+  // CRUD Methods for Admin
+  createProduct(product: ProductRequest): Observable<ProductRequest> {
+    return this._apiService.post<ProductRequest>(this._endPoint, product);
+  }
+
+  updateProduct(productId: number, product: ProductRequest): Observable<ProductRequest> {
+    return this._apiService.put<ProductRequest>(`${this._endPoint}/${productId}`, product);
+  }
+
+  deleteProduct(productId: number): Observable<any> {
+    return this._apiService.delete<any>(`${this._endPoint}/${productId}`);
+  }
+
+  getProductByIdFromApi(productId: number): Observable<any> {
+    return this._apiService.get<any>(`${this._endPoint}/${productId}`);
   }
 }

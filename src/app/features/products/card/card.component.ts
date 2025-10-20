@@ -1,4 +1,4 @@
-import { CurrencyPipe, SlicePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +13,7 @@ import { AddToCartComponent } from '@shared/ui/add-to-cart/add-to-cart.component
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [RouterLink, AddToCartComponent, CurrencyPipe, SlicePipe],
+  imports: [RouterLink, AddToCartComponent, CurrencyPipe],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -41,6 +41,8 @@ export default class ProductsComponent {
   }
 
   onAddToCart(product: Product): void {
+    // Agregar producto al carrito sin verificar autenticación
+    // La verificación se hará al momento de procesar el pago
     this._cartService.addToCart(product);
   }
 

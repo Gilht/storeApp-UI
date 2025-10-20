@@ -1,41 +1,151 @@
-<nav class="navbar">
-  <div class="nav-container flex-space-between">
-    <a routerLink="/" class="nav-logo">DOMINISTORE</a>
-    <div class="flex items-center">
-      <a routerLink="/products" class="mr-6">Products</a>
-      <a routerLink="/users/login" class="mr-6">Login</a>
-      <a routerLink="/users/register" class="mr-6">Register</a>
-      <div class="relative" (mouseenter)="showCart.set(true)" (mouseleave)="showCart.set(false)">
-        <a routerLink="/checkout" class="flex items-center">
-          <svg fill="none" height="25" viewBox="0 0 15 15" width="25" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0.978822 0.356323L0.0209961 0.643671L3.12789 11H14.9999V4.5C14.9999 3.11929 13.8806 2 12.4999 2H1.47192L0.978822 0.356323Z"
-              fill="black" />
-            <path clip-rule="evenodd"
-              d="M5.5 12C4.67157 12 4 12.6716 4 13.5C4 14.3284 4.67157 15 5.5 15C6.32843 15 7 14.3284 7 13.5C7 12.6716 6.32843 12 5.5 12ZM5 13.5C5 13.2239 5.22386 13 5.5 13C5.77614 13 6 13.2239 6 13.5C6 13.7761 5.77614 14 5.5 14C5.22386 14 5 13.7761 5 13.5Z"
-              fill="black" fill-rule="evenodd" />
-            <path clip-rule="evenodd"
-              d="M12.5 12C11.6716 12 11 12.6716 11 13.5C11 14.3284 11.6716 15 12.5 15C13.3284 15 14 14.3284 14 13.5C14 12.6716 13.3284 12 12.5 12ZM12 13.5C12 13.2239 12.2239 13 12.5 13C12.7761 13 13 13.2239 13 13.5C13 13.7761 12.7761 14 12.5 14C12.2239 14 12 13.7761 12 13.5Z"
-              fill="black" fill-rule="evenodd" />
-          </svg>
-          @if (cart()?.productsCount) {
-            <span class="cart-info">{{ cart()?.productsCount }}</span>
-          }
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a routerLink="/" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 bg-primary-default rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-200">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+          </div>
+          <span class="text-lg font-bold text-primary-default">
+            DOMINISTORE
+          </span>
+        </a>
+      </div>
+
+      <!-- Navigation Links & Right Side Icons -->
+      <div class="flex items-center gap-2">
+        <a
+          routerLink="/products"
+          routerLinkActive="bg-orange-50 text-primary-dark"
+          class="px-3 py-1.5 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-default transition-all duration-200 font-medium text-sm">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+            Productos
+          </span>
         </a>
 
-        @if (showCart() && cart()?.productsCount) {
-          <div [ngClass]="{'show-cart-animation': showCart()}" class="cart-dropdown">
-            @for (product of cart()?.products; track product.id) {
-              <div class="flex-space-between">
-                <span>{{ product.quantity}} {{ product.name | slice: 0: 10 }}</span>
-                <span> {{ product.subTotal || product.price | currency }}</span>
-              </div>
+        @if(!isLoggedIn()){
+          <a
+            routerLink="/users/login"
+            routerLinkActive="bg-orange-50 text-primary-dark"
+            class="px-3 py-1.5 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-default transition-all duration-200 font-medium text-sm">
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+              </svg>
+              Ingresar
+            </span>
+          </a>
+          <a
+            routerLink="/users/register"
+            class="px-3 py-1.5 bg-primary-default hover:bg-primary-dark text-white rounded-lg transition-all duration-200 font-medium text-sm shadow-md hover:shadow-lg">
+            Registrarse
+          </a>
+        }
+
+        <div class="w-px h-6 bg-gray-300 mx-1"></div>
+        <!-- Shopping Cart -->
+        <div class="relative" (mouseenter)="showCart.set(true)" (mouseleave)="showCart.set(false)">
+          <a
+            routerLink="/checkout"
+            class="relative p-1.5 rounded-lg hover:bg-gray-100 transition-colors duration-200 group">
+            <svg class="w-5 h-5 text-gray-700 group-hover:text-primary-default transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            @if (cart()?.productsCount) {
+              <span class="absolute -top-1 -right-1 bg-primary-default text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-lg animate-pulse text-[10px]">
+                {{ cart()?.productsCount }}
+              </span>
             }
-            <hr class="border-divider" />
-            <div class="cart-total">
-              Total:
-              <span class="not-italic font-bold">
-                {{ cart()?.totalAmount | currency }}</span>
+          </a>
+
+          <!-- Cart Dropdown -->
+          @if (showCart() && cart()?.productsCount) {
+            <div class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn">
+              <div class="p-4 bg-primary-default text-white">
+                <h3 class="font-semibold text-lg">Carrito de Compras</h3>
+                <p class="text-sm text-orange-100">{{ cart()?.productsCount }} productos</p>
+              </div>
+
+              <div class="max-h-64 overflow-y-auto p-4 space-y-3">
+                @for (product of cart()?.products; track product.id) {
+                  <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <span class="text-xs text-gray-600 font-medium">{{ product.quantity }}x</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-gray-900 truncate">{{ product.name }}</p>
+                      <p class="text-xs text-gray-500">{{ product.subTotal || product.price | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <div class="border-t border-gray-100 p-4 bg-gray-50">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-gray-600 font-medium">Total:</span>
+                  <span class="text-xl font-bold text-gray-900">
+                    {{ cart()?.totalAmount | currency:'USD':'symbol':'1.2-2': 'es' }}
+                  </span>
+                </div>
+                <a
+                  routerLink="/checkout"
+                  class="block w-full text-center px-4 py-2.5 bg-primary-default hover:bg-primary-dark text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg">
+                  Ver Carrito
+                </a>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- User Menu -->
+        @if (isLoggedIn()) {
+          <div class="relative group">
+            <button class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+              <div class="w-7 h-7 bg-primary-default rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+              </div>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <div class="py-2">
+                <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    Mi Perfil
+                  </span>
+                </a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    Mis Pedidos
+                  </span>
+                </a>
+                <hr class="my-2 border-gray-100">
+                <a
+                  href="javascript:void(0)"
+                  (click)="onLogout()"
+                  class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Cerrar Sesión
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         }

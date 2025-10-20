@@ -1,12 +1,16 @@
 <div class="flex flex-col h-screen">
-  <app-header [cart]="cart()" />
-  @if (currentRoute() === '' || currentRoute() === 'products') {
-    <app-hero />
-    <app-category-filter />
+  @if (!currentRoute().startsWith('admin')) {
+    <app-header [cart]="cart()" />
+    @if (currentRoute() === '' || currentRoute() === 'products') {
+      <app-hero />
+      <app-category-filter />
+    }
   }
   <main class="flex-grow">
     <app-spinner />
     <router-outlet />
   </main>
-  <app-footer />
+  @if (!currentRoute().startsWith('admin')) {
+    <app-footer />
+  }
 </div>

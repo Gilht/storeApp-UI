@@ -7,6 +7,26 @@ export const appRoutes: Route[] = [
     loadChildren: () => import('../app/features/products/products.routes'),
   },
   {
+    path: 'checkout',
+    loadComponent: () => import('../app/features/checkout/checkout.component'),
+  },
+  {
+    path: 'users/register',
+    loadComponent: () => import('../app/features/auth/register/register.component'),
+  },
+  {
+    path: 'users/login',
+    loadComponent: () => import('../app/features/auth/login/login.component'),
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('../app/features/profile/profile.component'),
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('../app/features/admin/admin.routes').then(m => m.adminRoutes),
+  },
+  {
     path: '',
     redirectTo: '/products',
     pathMatch: 'full',

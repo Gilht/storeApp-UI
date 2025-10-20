@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Product } from '@features/products/product.interface';
 import { ToastrService } from 'ngx-toastr';
 import { CartCalculatorService } from 'src/app/store/cart-state/cart-calculator.service';
@@ -15,18 +15,53 @@ export const initialCartState: CartStore = {
   productsCount: 0,
 };
 
+const CART_STORAGE_KEY = 'DOMINI_STORE_CART';
+
 @Injectable({ providedIn: 'root' })
 export class CartStateService {
   private readonly _cartCalculatorService = inject(CartCalculatorService);
   private readonly _toastrService = inject(ToastrService);
 
-  private readonly _cartState = signal<CartStore>(initialCartState);
+  private readonly _cartState = signal<CartStore>(this.loadCartFromStorage());
 
   // Señales públicas computadas para acceso de solo lectura
   readonly cart = this._cartState.asReadonly();
   readonly products = computed(() => this._cartState().products);
   readonly totalAmount = computed(() => this._cartState().totalAmount);
   readonly productsCount = computed(() => this._cartState().productsCount);
+
+  constructor() {
+    // Efecto para guardar el carrito en localStorage cada vez que cambie
+    effect(() => {
+      const currentCart = this._cartState();
+      this.saveCartToStorage(currentCart);
+    });
+  }
+
+  private loadCartFromStorage(): CartStore {
+    try {
+      const storedCart = localStorage.getItem(CART_STORAGE_KEY);
+      if (storedCart) {
+        const parsedCart = JSON.parse(storedCart);
+        return {
+          products: parsedCart.products || [],
+          totalAmount: parsedCart.totalAmount || 0,
+          productsCount: parsedCart.productsCount || 0,
+        };
+      }
+    } catch (error) {
+      console.error('Error loading cart from localStorage:', error);
+    }
+    return initialCartState;
+  }
+
+  private saveCartToStorage(cart: CartStore): void {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    } catch (error) {
+      console.error('Error saving cart to localStorage:', error);
+    }
+  }
 
   addToCart(product: Product): void {
     const currentState = this._cartState();
