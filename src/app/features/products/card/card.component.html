@@ -1,56 +1,56 @@
 <div class="product-card">
-  <div class="w-[340px] h-[550px] overflow-hidden bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+  <div class="w-[280px] h-[450px] overflow-hidden bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
     <a class="product-image-link" [routerLink]="['/products', product().id]">
-      <div class="product-image bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center h-52 relative">
-        <span class="text-gray-400 text-lg font-semibold text-center px-4">{{ product().name }}</span>
+      <div class="product-image bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center h-40 relative">
+        <span class="text-gray-400 text-sm font-semibold text-center px-3">{{ product().name }}</span>
       </div>
     </a>
 
-    <div class="px-5 py-5 flex flex-col gap-4 flex-grow">
+    <div class="px-4 py-3 flex flex-col gap-2.5 flex-grow">
       <!-- Categoría y Marca -->
-      <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex items-center gap-1.5 flex-wrap">
         @if (product().category) {
-          <span class="bg-orange-100 text-orange-800 px-3 py-1.5 rounded-md font-medium text-xs">
+          <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-md font-medium text-[10px]">
             {{ product().category?.name }}
           </span>
         } @else {
-          <span class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-md font-medium text-xs">Sin categoría</span>
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium text-[10px]">No category</span>
         }
         @if (product().brand) {
-          <span class="bg-orange-100 text-orange-800 px-3 py-1.5 rounded-md font-medium text-xs">
+          <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-md font-medium text-[10px]">
             {{ product().brand?.name }}
           </span>
         }
       </div>
 
       <!-- Nombre del producto -->
-      <div class="min-h-[50px]">
+      <div class="min-h-[40px]">
         <a [routerLink]="['/products', product().id]"
-           class="text-lg font-bold text-gray-800 hover:text-primary-default transition-colors line-clamp-2 block">
+           class="text-sm font-bold text-gray-800 hover:text-primary-default transition-colors line-clamp-2 block">
           {{ product().name }}
         </a>
       </div>
 
       <!-- Código del producto -->
-      <p class="text-xs text-gray-500 -mt-2">Código: <span class="font-mono">{{ product().code }}</span></p>
+      <p class="text-[10px] text-gray-500 -mt-1">Code: <span class="font-mono">{{ product().code }}</span></p>
 
       <!-- Descripción -->
-      <p class="text-sm text-gray-600 line-clamp-2 flex-grow">{{ product().description }}</p>
+      <p class="text-xs text-gray-600 line-clamp-2 flex-grow">{{ product().description }}</p>
       <app-add-to-cart (addToCartEvent)="onAddToCart()" />
     </div>
 
     <!-- Precios -->
-    <div class="px-5 pb-5 pt-2 border-t border-gray-100">
+    <div class="px-4 pb-3 pt-2 border-t border-gray-100">
       <div class="flex items-center justify-between">
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-0.5">
           @if (product().salePrice !== product().price) {
-            <p class="text-xs text-gray-400 line-through">{{ product().price | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
-            <div class="flex items-center gap-2">
-              <p class="text-xl font-bold text-primary-default">{{ product().salePrice | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
-              <span class="text-[10px] bg-primary-default text-white px-2 py-0.5 rounded font-semibold">OFERTA</span>
+            <p class="text-[10px] text-gray-400 line-through">{{ product().price | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
+            <div class="flex items-center gap-1.5">
+              <p class="text-lg font-bold text-primary-default">{{ product().salePrice | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
+              <span class="text-[9px] bg-primary-default text-white px-1.5 py-0.5 rounded font-semibold">SALE</span>
             </div>
           } @else {
-            <p class="text-xl font-bold text-primary-default">{{ product().price | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
+            <p class="text-lg font-bold text-primary-default">{{ product().price | currency:'USD':'symbol':'1.2-2': 'es' }}</p>
           }
         </div>
       </div>

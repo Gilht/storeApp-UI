@@ -36,8 +36,8 @@ export default class CheckoutComponent {
     if (!this.cart()?.products || this.cart()?.products.length === 0) {
       await Swal.fire({
         icon: 'warning',
-        title: 'Carrito vacío',
-        text: 'No hay productos en el carrito para procesar',
+        title: 'Empty Cart',
+        text: 'There are no products in the cart to process',
         confirmButtonColor: '#3b82f6'
       });
       return;
@@ -48,8 +48,8 @@ export default class CheckoutComponent {
     if (!userInfo) {
       await Swal.fire({
         icon: 'error',
-        title: 'No autenticado',
-        text: 'Debes iniciar sesión para realizar una compra',
+        title: 'Not Authenticated',
+        text: 'You must sign in to make a purchase',
         confirmButtonColor: '#3b82f6'
       });
       this._router.navigate(['/users/login']);
@@ -57,19 +57,19 @@ export default class CheckoutComponent {
     }
 
     const result = await Swal.fire({
-      title: '¿Confirmar compra?',
+      title: 'Confirm Purchase?',
       html: `
         <div class="text-left">
-          <p class="mb-2"><strong>Total de productos:</strong> ${this.cart()?.productsCount}</p>
-          <p class="mb-2"><strong>Total a pagar:</strong> $${this.totalAmount()?.toFixed(2)}</p>
+          <p class="mb-2"><strong>Total products:</strong> ${this.cart()?.productsCount}</p>
+          <p class="mb-2"><strong>Total to pay:</strong> $${this.totalAmount()?.toFixed(2)}</p>
         </div>
       `,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3b82f6',
       cancelButtonColor: '#ef4444',
-      confirmButtonText: 'Sí, confirmar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: 'Yes, confirm',
+      cancelButtonText: 'Cancel'
     });
 
     if (result.isConfirmed) {
@@ -100,10 +100,10 @@ export default class CheckoutComponent {
         this.isProcessing.set(false);
         await Swal.fire({
           icon: 'success',
-          title: '¡Compra exitosa!',
+          title: 'Purchase Successful!',
           html: `
             <div class="text-left">
-              <p class="mb-2"><strong>Número de venta:</strong> ${saleNumber}</p>
+              <p class="mb-2"><strong>Sale Number:</strong> ${saleNumber}</p>
               <p class="mb-2"><strong>Total:</strong> $${ details.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0).toFixed(2) }</p>
             </div>
           `,
@@ -116,8 +116,8 @@ export default class CheckoutComponent {
         this.isProcessing.set(false);
         await Swal.fire({
           icon: 'error',
-          title: 'Error al procesar la compra',
-          text: error.error?.message || 'Ha ocurrido un error al procesar tu compra',
+          title: 'Error Processing Purchase',
+          text: error.error?.message || 'An error occurred while processing your purchase',
           confirmButtonColor: '#3b82f6'
         });
       }
@@ -126,22 +126,22 @@ export default class CheckoutComponent {
 
   async clearAll(): Promise<void> {
     const result = await Swal.fire({
-      title: '¿Vaciar carrito?',
-      text: 'Se eliminarán todos los productos del carrito',
+      title: 'Empty Cart?',
+      text: 'All products will be removed from the cart',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
       cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Sí, vaciar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: 'Yes, empty',
+      cancelButtonText: 'Cancel'
     });
 
     if (result.isConfirmed) {
       this.cartService.clearCart();
       await Swal.fire({
         icon: 'success',
-        title: 'Carrito vaciado',
-        text: 'Todos los productos han sido eliminados',
+        title: 'Cart Emptied',
+        text: 'All products have been removed',
         confirmButtonColor: '#3b82f6',
         timer: 2000,
         showConfirmButton: false
@@ -153,26 +153,52 @@ export default class CheckoutComponent {
     const product = this.cart()?.products.find(p => p.id === productId);
 
     const result = await Swal.fire({
-      title: '¿Eliminar producto?',
-      text: `¿Deseas eliminar "${product?.name}" del carrito?`,
+      title: 'Remove Product?',
+      text: `Do you want to remove "${product?.name}" from the cart?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
       cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: 'Yes, remove',
+      cancelButtonText: 'Cancel'
     });
 
     if (result.isConfirmed) {
       this.cartService.removeFromCart(productId);
       await Swal.fire({
         icon: 'success',
-        title: 'Producto eliminado',
-        text: `"${product?.name}" ha sido eliminado del carrito`,
+        title: 'Product Removed',
+        text: `"${product?.name}" has been removed from the cart`,
         confirmButtonColor: '#3b82f6',
         timer: 2000,
         showConfirmButton: false
       });
+    }
+  }
+
+  onIncreaseQuantity(productId: number): void {
+    const product = this.cart()?.products.find(p => p.id === productId);
+    if (product) {
+      this.cartService.updateQuantity(productId, (product.quantity || 0) + 1);
+    }
+  }
+
+  onDecreaseQuantity(productId: number): void {
+    const product = this.cart()?.products.find(p => p.id === productId);
+    if (product && product.quantity && product.quantity > 1) {
+      this.cartService.updateQuantity(productId, product.quantity - 1);
+    }
+  }
+
+  onQuantityChange(productId: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const newQuantity = parseInt(input.value, 10);
+
+    if (!isNaN(newQuantity) && newQuantity > 0) {
+      this.cartService.updateQuantity(productId, newQuantity);
+    } else if (newQuantity === 0) {
+      input.value = '1';
+      this.cartService.updateQuantity(productId, 1);
     }
   }
 }

@@ -1,5 +1,5 @@
 export interface SaleDetail {
-  product: number;
+  product: number | any;
   quantity: number;
   unitPrice: number;
 }

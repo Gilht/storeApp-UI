@@ -26,14 +26,14 @@ export default class ProductsListAdminComponent implements OnInit {
 
   async onDelete(productId: number, productName: string): Promise<void> {
     const result = await Swal.fire({
-      title: '¿Eliminar producto?',
-      text: `¿Estás seguro de eliminar "${productName}"?`,
+      title: 'Delete Product?',
+      text: `Are you sure you want to delete "${productName}"?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
       cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: 'Yes, delete',
+      cancelButtonText: 'Cancel'
     });
 
     if (result.isConfirmed) {
@@ -41,8 +41,8 @@ export default class ProductsListAdminComponent implements OnInit {
         next: async () => {
           await Swal.fire({
             icon: 'success',
-            title: 'Producto eliminado',
-            text: 'El producto ha sido eliminado correctamente',
+            title: 'Product Deleted',
+            text: 'The product has been deleted successfully',
             confirmButtonColor: '#f97316'
           });
           this._productsService.loadProducts();
@@ -51,7 +51,7 @@ export default class ProductsListAdminComponent implements OnInit {
           await Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: error.error?.message || 'No se pudo eliminar el producto',
+            text: error.error?.message || 'Could not delete the product',
             confirmButtonColor: '#f97316'
           });
         }

@@ -75,7 +75,7 @@ export default class SalesListAdminComponent implements OnInit {
   async onViewDetails(sale: Sale): Promise<void> {
     const detailsHtml = sale.details.map((detail) => `
       <div class="flex justify-between py-2 border-b">
-        <span>Producto ID: ${detail.product}</span>
+        <span>Producto ID: ${detail.product.name} - ${detail.product.code}</span>
         <span>Cantidad: ${detail.quantity}</span>
         <span>Precio: $${detail.unitPrice}</span>
       </div>
@@ -86,7 +86,7 @@ export default class SalesListAdminComponent implements OnInit {
       html: `
         <div class="text-left">
           <div class="mb-4">
-            <p><strong>Usuario:</strong> ${sale.user}</p>
+            <p><strong>Usuario:</strong> ${sale.user.name} - ${sale.user.email}</p>
             <p><strong>Descuento:</strong> ${sale.discount}%</p>
             <p><strong>Total:</strong> $${sale.total}</p>
             <p><strong>Fecha:</strong> ${new Date(sale.createdAt).toLocaleDateString('es-ES')}</p>

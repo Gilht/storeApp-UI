@@ -46,7 +46,7 @@ export default class LoginComponent {
             response.payload?.data.accessToken,
             response.payload?.data.refreshToken
           );
-          this._toastr.success('Inicio de sesión exitoso', 'Bienvenido');
+          this._toastr.success('Login successful', 'Welcome');
 
           // Verificar si el usuario es administrador
           const userInfo = this._http.getUserInfo();
@@ -64,7 +64,7 @@ export default class LoginComponent {
         error: (error) => {
           this.isLoading.set(false);
           this._toastr.error(
-            error.error?.message || 'Credenciales inválidas',
+            error.error?.message || 'Invalid credentials',
             'Error'
           );
         },
@@ -89,16 +89,16 @@ export default class LoginComponent {
     const control = this.loginForm.get(fieldName);
 
     if (control?.hasError('required')) {
-      return 'Este campo es requerido';
+      return 'This field is required';
     }
 
     if (control?.hasError('email')) {
-      return 'Email inválido';
+      return 'Invalid email';
     }
 
     if (control?.hasError('minlength')) {
       const minLength = control.errors?.['minlength'].requiredLength;
-      return `Mínimo ${minLength} caracteres`;
+      return `Minimum ${minLength} characters`;
     }
 
     return '';

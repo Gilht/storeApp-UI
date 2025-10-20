@@ -35,15 +35,15 @@ export default class RegisterComponent {
 
       this._authService.register(this.registerForm.value).subscribe({
         next: (response) => {
-          console.log('Registro exitoso:', response);
+          console.log('Registration successful:', response);
           this.isLoading.set(false);
-          this._toastr.success('Registro exitoso', 'Bienvenido');
+          this._toastr.success('Registration successful', 'Welcome');
           this._router.navigate(['/users/login']);
         },
         error: (error) => {
           this.isLoading.set(false);
           this._toastr.error(
-            error.error?.message || 'Error al registrar usuario',
+            error.error?.message || 'Error registering user',
             'Error'
           );
         },
@@ -68,24 +68,24 @@ export default class RegisterComponent {
     const control = this.registerForm.get(fieldName);
 
     if (control?.hasError('required')) {
-      return 'Este campo es requerido';
+      return 'This field is required';
     }
 
     if (control?.hasError('email')) {
-      return 'Email inválido';
+      return 'Invalid email';
     }
 
     if (control?.hasError('minlength')) {
       const minLength = control.errors?.['minlength'].requiredLength;
-      return `Mínimo ${minLength} caracteres`;
+      return `Minimum ${minLength} characters`;
     }
 
     if (control?.hasError('min')) {
-      return 'Debe ser mayor de 18 años';
+      return 'Must be at least 18 years old';
     }
 
     if (control?.hasError('max')) {
-      return 'Edad inválida';
+      return 'Invalid age';
     }
 
     return '';

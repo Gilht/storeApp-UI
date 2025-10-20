@@ -62,7 +62,7 @@ export default class ProductFormAdminComponent implements OnInit {
           this.categories.set(response.payload.data);
         },
         error: () => {
-          this._toastr.error('Error al cargar categorías');
+          this._toastr.error('Error loading categories');
         },
       });
   }
@@ -75,7 +75,7 @@ export default class ProductFormAdminComponent implements OnInit {
           this.brands.set(response.payload.data);
         },
         error: () => {
-          this._toastr.error('Error al cargar marcas');
+          this._toastr.error('Error loading brands');
         },
       });
   }
@@ -98,7 +98,7 @@ export default class ProductFormAdminComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: () => {
-        this._toastr.error('Error al cargar el producto');
+        this._toastr.error('Error loading product');
         this.isLoading.set(false);
         this._router.navigate(['/admin/products']);
       },
@@ -125,12 +125,12 @@ export default class ProductFormAdminComponent implements OnInit {
           .updateProduct(this.productId()!, productData)
           .subscribe({
             next: () => {
-              this._toastr.success('Producto actualizado correctamente');
+              this._toastr.success('Product updated successfully');
               this._router.navigate(['/admin/products']);
             },
             error: (error) => {
               this._toastr.error(
-                error.error?.message || 'Error al actualizar el producto'
+                error.error?.message || 'Error updating product'
               );
               this.isLoading.set(false);
             },
@@ -138,12 +138,12 @@ export default class ProductFormAdminComponent implements OnInit {
       } else {
         this._productsService.createProduct(productData).subscribe({
           next: () => {
-            this._toastr.success('Producto creado correctamente');
+            this._toastr.success('Product created successfully');
             this._router.navigate(['/admin/products']);
           },
           error: (error) => {
             this._toastr.error(
-              error.error?.message || 'Error al crear el producto'
+              error.error?.message || 'Error creating product'
             );
             this.isLoading.set(false);
           },
@@ -169,16 +169,16 @@ export default class ProductFormAdminComponent implements OnInit {
     const control = this.productForm.get(fieldName);
 
     if (control?.hasError('required')) {
-      return 'Este campo es requerido';
+      return 'This field is required';
     }
 
     if (control?.hasError('minlength')) {
       const minLength = control.errors?.['minlength'].requiredLength;
-      return `Mínimo ${minLength} caracteres`;
+      return `Minimum ${minLength} characters`;
     }
 
     if (control?.hasError('min')) {
-      return 'El valor debe ser mayor o igual a 0';
+      return 'Value must be greater than or equal to 0';
     }
 
     return '';

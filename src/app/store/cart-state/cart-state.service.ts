@@ -103,6 +103,26 @@ export class CartStateService {
     this._toastrService.success('Product removed!!', 'DOMINI STORE');
   }
 
+  updateQuantity(productId: number, quantity: number): void {
+    if (quantity <= 0) {
+      this.removeFromCart(productId);
+      return;
+    }
+
+    const currentState = this._cartState();
+    const updatedProducts = currentState.products.map((p) =>
+      p.id === productId ? { ...p, quantity } : p
+    );
+
+    this._cartState.set({
+      products: updatedProducts,
+      totalAmount: this._cartCalculatorService.calculateTotal(updatedProducts),
+      productsCount: this._cartCalculatorService.calculateItemsCount(updatedProducts),
+    });
+
+    this._toastrService.success('Quantity updated!', 'DOMINI STORE');
+  }
+
   clearCart(): void {
     this._cartState.set(initialCartState);
     this._toastrService.success('All Products removed!', 'DOMINI STORE');

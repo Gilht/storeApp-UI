@@ -30,7 +30,8 @@ export class ProductsService {
   );
 
   constructor() {
-    this.loadProducts();
+    // Eliminamos la carga inicial para evitar múltiples peticiones
+    // La carga se hará desde el componente según los parámetros de la ruta
   }
 
   loadProducts(params?: Partial<PaginationParams>): void {

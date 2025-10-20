@@ -6,7 +6,7 @@
         type="text"
         (input)="onSearch($event)"
         [value]="searchTerm()"
-        placeholder="Buscar por nombre, código, categoría o marca..."
+        placeholder="Search by name, code, category or brand..."
         class="w-full px-4 py-3 pl-12 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
       />
       <svg class="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,18 +14,20 @@
       </svg>
     </div>
     <p class="text-sm text-gray-600 mt-2 text-center">
-      Mostrando {{ products().length }} de {{ totalProducts() }} productos
+      Showing {{ products().length }} of {{ totalProducts() }} products
     </p>
   </div>
 
   <!-- Grid de productos -->
   <div class="product-grid mb-8">
     @if (isLoading()) {
-      <!-- Skeleton loaders -->
+      <!-- Skeleton loaders - muestran mientras carga -->
       @for (item of [1,2,3,4,5,6,7,8,9,10]; track item) {
         <app-product-skeleton />
       }
-    } @else {
+    }
+
+    @if (!isLoading()) {
       @for (product of products(); track product.id) {
         <app-card
           (addToCartEvent)="onAddToCart($event)"
@@ -35,8 +37,8 @@
         </app-card>
       } @empty {
         <div class="col-span-full text-center py-16">
-          <p class="text-2xl text-gray-400">No se encontraron productos</p>
-          <p class="text-gray-500 mt-2">Intenta con otros términos de búsqueda</p>
+          <p class="text-2xl text-gray-400">No products found</p>
+          <p class="text-gray-500 mt-2">Try with different search terms</p>
         </div>
       }
     }
@@ -54,7 +56,7 @@
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
-          Anterior
+          Previous
         </span>
       </button>
 
@@ -79,7 +81,7 @@
         [disabled]="currentPage() >= totalPages() - 1"
         class="px-4 py-2 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white">
         <span class="flex items-center gap-2">
-          Siguiente
+          Next
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
           </svg>
@@ -89,7 +91,7 @@
 
     <!-- Info de página actual -->
     <div class="text-center text-sm text-gray-600 pb-4">
-      Página {{ currentPage() + 1 }} de {{ totalPages() }}
+      Page {{ currentPage() + 1 }} of {{ totalPages() }}
     </div>
   }
 </section>

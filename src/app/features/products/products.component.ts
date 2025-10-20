@@ -31,10 +31,14 @@ export default class ProductsComponent {
   private readonly queryParams = toSignal(this._route.queryParams);
 
   constructor() {
+    // Cargamos los productos una sola vez al iniciar el componente
+    this.productsService.loadProducts();
+
+    // Monitoreamos cambios en los parámetros de la ruta para filtrar por categoría
     effect(() => {
       const params = this.queryParams();
-      if (params) {
-        const category = params['category'] || 'all';
+      if (params && params['category']) {
+        const category = params['category'];
         this.productsService.filterProductsByCategory(category);
       }
     }, { allowSignalWrites: true });
@@ -79,7 +83,7 @@ export default class ProductsComponent {
     return pages;
   }
 
-  trackById(index: number, product: Product): number {
+  trackById(_index: number, product: Product): number {
     return product.id;
   }
 }

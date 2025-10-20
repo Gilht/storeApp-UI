@@ -20,7 +20,7 @@ const defaultConfig: AddToCartConfig = {
   template: `
     <button
       (click)="onAddToCart()"
-      class="whitespace-nowrap bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95">
+      class="whitespace-nowrap bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs px-3 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 active:scale-95">
       {{ config().text }}
     </button>
   `,

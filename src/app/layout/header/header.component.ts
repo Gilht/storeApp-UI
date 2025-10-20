@@ -33,6 +33,9 @@ export class HeaderComponent {
 
   findAdminRole(): boolean {
     const user = this.auth.getUserInfo();
+    if (!user) {
+      return false;
+    }
     return user?.roles.includes('ADMIN') ?? false;
   }
 }

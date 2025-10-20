@@ -1,128 +1,128 @@
-<div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="mx-auto px-4 sm:px-6 lg:px-8 py-4">
   <div class="max-w-3xl mx-auto">
     <!-- Header -->
-    <div class="mb-8">
-      <h2 class="text-3xl font-bold text-gray-900">
-        {{ isEditMode() ? 'Editar Producto' : 'Nuevo Producto' }}
+    <div class="mb-4">
+      <h2 class="text-2xl font-bold text-gray-900">
+        {{ isEditMode() ? 'Edit Product' : 'New Product' }}
       </h2>
-      <p class="mt-1 text-sm text-gray-600">
-        {{ isEditMode() ? 'Actualiza la información del producto' : 'Completa los datos para crear un nuevo producto' }}
+      <p class="mt-0.5 text-xs text-gray-600">
+        {{ isEditMode() ? 'Update the product information' : 'Fill in the details to create a new product' }}
       </p>
     </div>
 
-    <!-- Form Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+    <!-- Tarjeta de formulario -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-        <div class="space-y-6">
+        <div class="space-y-3">
           <!-- Name -->
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-              Nombre del Producto <span class="text-red-500">*</span>
+            <label for="name" class="block text-xs font-medium text-gray-700 mb-0.5">
+              Product Name <span class="text-red-500">*</span>
             </label>
             <input
               id="name"
               type="text"
               formControlName="name"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
               [class.border-red-500]="hasError('name')"
-              placeholder="Ingrese el nombre del producto"
+              placeholder="Enter the product name"
             />
             @if (hasError('name')) {
-              <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('name') }}</p>
+              <p class="mt-0.5 text-xs text-red-600">{{ getErrorMessage('name') }}</p>
             }
           </div>
 
           <!-- Code -->
           <div>
-            <label for="code" class="block text-sm font-medium text-gray-700 mb-1">
-              Código <span class="text-red-500">*</span>
+            <label for="code" class="block text-xs font-medium text-gray-700 mb-0.5">
+              Code <span class="text-red-500">*</span>
             </label>
             <input
               id="code"
               type="text"
               formControlName="code"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
               [class.border-red-500]="hasError('code')"
-              placeholder="Ingrese el código del producto"
+              placeholder="Enter the product code"
             />
             @if (hasError('code')) {
-              <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('code') }}</p>
+              <p class="mt-0.5 text-xs text-red-600">{{ getErrorMessage('code') }}</p>
             }
           </div>
 
           <!-- Description -->
           <div>
-            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
-              Descripción <span class="text-red-500">*</span>
+            <label for="description" class="block text-xs font-medium text-gray-700 mb-0.5">
+              Description <span class="text-red-500">*</span>
             </label>
             <textarea
               id="description"
               formControlName="description"
-              rows="4"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all resize-none"
+              rows="3"
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all resize-none"
               [class.border-red-500]="hasError('description')"
-              placeholder="Descripción detallada del producto"></textarea>
+              placeholder="Detailed product description"></textarea>
             @if (hasError('description')) {
-              <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('description') }}</p>
+              <p class="mt-0.5 text-xs text-red-600">{{ getErrorMessage('description') }}</p>
             }
           </div>
 
           <!-- Price and Sale Price -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label for="price" class="block text-sm font-medium text-gray-700 mb-1">
-                Precio Regular <span class="text-red-500">*</span>
+              <label for="price" class="block text-xs font-medium text-gray-700 mb-0.5">
+                Regular Price <span class="text-red-500">*</span>
               </label>
               <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
                 <input
                   id="price"
                   type="number"
                   formControlName="price"
                   step="0.01"
-                  class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
+                  class="w-full pl-7 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
                   [class.border-red-500]="hasError('price')"
                   placeholder="0.00"
                 />
               </div>
               @if (hasError('price')) {
-                <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('price') }}</p>
+                <p class="mt-0.5 text-xs text-red-600">{{ getErrorMessage('price') }}</p>
               }
             </div>
 
             <div>
-              <label for="salePrice" class="block text-sm font-medium text-gray-700 mb-1">
-                Precio de Venta <span class="text-red-500">*</span>
+              <label for="salePrice" class="block text-xs font-medium text-gray-700 mb-0.5">
+                Sale Price <span class="text-red-500">*</span>
               </label>
               <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
                 <input
                   id="salePrice"
                   type="number"
                   formControlName="salePrice"
                   step="0.01"
-                  class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
+                  class="w-full pl-7 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all"
                   [class.border-red-500]="hasError('salePrice')"
                   placeholder="0.00"
                 />
               </div>
               @if (hasError('salePrice')) {
-                <p class="mt-1 text-sm text-red-600">{{ getErrorMessage('salePrice') }}</p>
+                <p class="mt-0.5 text-xs text-red-600">{{ getErrorMessage('salePrice') }}</p>
               }
             </div>
           </div>
 
           <!-- Category and Brand -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
-                Categoría
+              <label for="category" class="block text-xs font-medium text-gray-700 mb-0.5">
+                Category
               </label>
               <select
                 id="category"
                 formControlName="category"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all">
-                <option [value]="null">Sin categoría</option>
+                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all">
+                <option [value]="null">No category</option>
                 @for (category of categories(); track category.id) {
                   <option [value]="category.id">{{ category.name }}</option>
                 }
@@ -130,14 +130,14 @@
             </div>
 
             <div>
-              <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">
-                Marca
+              <label for="brand" class="block text-xs font-medium text-gray-700 mb-0.5">
+                Brand
               </label>
               <select
                 id="brand"
                 formControlName="brand"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all">
-                <option [value]="null">Sin marca</option>
+                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-default focus:border-transparent transition-all">
+                <option [value]="null">No brand</option>
                 @for (brand of brands(); track brand.id) {
                   <option [value]="brand.id">{{ brand.name }}</option>
                 }
@@ -151,38 +151,38 @@
               id="active"
               type="checkbox"
               formControlName="active"
-              class="w-4 h-4 text-primary-default border-gray-300 rounded focus:ring-primary-default"
+              class="w-3.5 h-3.5 text-primary-default border-gray-300 rounded focus:ring-primary-default"
             />
-            <label for="active" class="ml-2 text-sm text-gray-700">
-              Producto activo
+            <label for="active" class="ml-2 text-xs text-gray-700">
+              Active product
             </label>
           </div>
 
           <!-- Buttons -->
-          <div class="flex gap-4 pt-6 border-t border-gray-200">
+          <div class="flex gap-3 pt-3 border-t border-gray-200">
             <button
               type="submit"
               [disabled]="isLoading()"
-              class="flex-1 bg-primary-default hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+              class="flex-1 bg-primary-default hover:bg-primary-dark text-white font-semibold py-2 px-4 text-sm rounded-lg transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5">
               @if (isLoading()) {
-                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span>{{ isEditMode() ? 'Actualizando...' : 'Creando...' }}</span>
+                <span>{{ isEditMode() ? 'Updating...' : 'Creating...' }}</span>
               } @else {
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span>{{ isEditMode() ? 'Actualizar Producto' : 'Crear Producto' }}</span>
+                <span>{{ isEditMode() ? 'Update Product' : 'Create Product' }}</span>
               }
             </button>
             <button
               type="button"
               (click)="onCancel()"
               [disabled]="isLoading()"
-              class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-              Cancelar
+              class="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+              Cancel
             </button>
           </div>
         </div>
