@@ -116,14 +116,11 @@ export default class ProductFormAdminComponent implements OnInit {
         description: formValue.description,
         price: parseFloat(formValue.price),
         salePrice: parseFloat(formValue.salePrice),
-        active: formValue.active,
         category: formValue.category,
         brand: formValue.brand,
-        id: 0
       };
 
       if (this.isEditMode()) {
-        productData.id = this.productId()!;
         this._productsService
           .updateProduct(this.productId()!, productData)
           .subscribe({

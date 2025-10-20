@@ -11,13 +11,11 @@ export interface Brand {
 }
 
 export interface ProductRequest {
-  id: number;
   name: string;
   code: string;
   description: string;
   price: number;
   salePrice: number;
-  active: boolean;
   category: number;
   brand: number; 
 }
