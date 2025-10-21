@@ -1,0 +1,104 @@
+<!-- Chatbot Container -->
+<div class="fixed bottom-4 right-4 z-50">
+  <!-- Chat Window -->
+  @if (isOpen()) {
+    <div class="mb-4 w-96 bg-white rounded-lg shadow-2xl overflow-hidden animate-slide-up">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg">Chat de Ayuda</h3>
+            <p class="text-xs text-blue-100">Estamos aquí para ayudarte</p>
+          </div>
+        </div>
+        <button
+          (click)="toggleChat()"
+          class="hover:bg-blue-800 rounded-full p-1 transition-colors"
+          aria-label="Cerrar chat">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Messages Container -->
+      <div class="h-96 overflow-y-auto p-4 bg-gray-50 space-y-4">
+        @for (message of messages(); track $index) {
+          <div
+            [class]="message.isBot ? 'flex justify-start' : 'flex justify-end'">
+            <div
+              [class]="message.isBot
+                ? 'bg-white text-gray-800 rounded-lg rounded-tl-none shadow-md'
+                : 'bg-blue-600 text-white rounded-lg rounded-tr-none shadow-md'"
+              class="max-w-xs px-4 py-2 break-words">
+              <p class="text-sm">{{ message.text }}</p>
+              <p
+                [class]="message.isBot ? 'text-gray-400' : 'text-blue-100'"
+                class="text-xs mt-1">
+                {{ message.timestamp | date:'HH:mm' }}
+              </p>
+            </div>
+          </div>
+        }
+
+        <!-- Typing Indicator -->
+        @if (isTyping()) {
+          <div class="flex justify-start">
+            <div class="bg-white rounded-lg rounded-tl-none shadow-md px-4 py-3">
+              <div class="flex gap-1">
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Input Area -->
+      <div class="p-4 bg-white border-t border-gray-200">
+        <div class="flex gap-2">
+          <input
+            [(ngModel)]="newMessage"
+            (keypress)="onKeyPress($event)"
+            type="text"
+            placeholder="Escribe tu mensaje..."
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            [disabled]="isTyping()"
+          />
+          <button
+            (click)="sendMessage()"
+            [disabled]="!newMessage.trim() || isTyping()"
+            class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            aria-label="Enviar mensaje">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Floating Button -->
+  <button
+    (click)="toggleChat()"
+    class="bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-blue-700 transition-all hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300"
+    [class.rotate-animation]="!isOpen()"
+    aria-label="Abrir chat">
+    @if (isOpen()) {
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    } @else {
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+      </svg>
+    }
+  </button>
+</div>
