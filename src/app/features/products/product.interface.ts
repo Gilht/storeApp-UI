@@ -27,6 +27,7 @@ export interface Product {
   description: string;
   price: number;
   salePrice: number;
+  imgUrl: string | null;
   active: boolean;
   category: Category | null;
   brand: Brand | null;

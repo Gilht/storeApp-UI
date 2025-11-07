@@ -82,17 +82,17 @@ export default class SalesListAdminComponent implements OnInit {
     `).join('');
 
     await Swal.fire({
-      title: `Detalles de Venta #${sale.saleNumber}`,
+      title: `Sale Details #${sale.saleNumber}`,
       html: `
         <div class="text-left">
           <div class="mb-4">
-            <p><strong>Usuario:</strong> ${sale.user.name} - ${sale.user.email}</p>
-            <p><strong>Descuento:</strong> ${sale.discount}%</p>
+            <p><strong>User:</strong> ${sale.user.name} - ${sale.user.email}</p>
+            <p><strong>Disscount:</strong> ${sale.discount}%</p>
             <p><strong>Total:</strong> $${sale.total}</p>
-            <p><strong>Fecha:</strong> ${new Date(sale.createdAt).toLocaleDateString('es-ES')}</p>
+            <p><strong>Date:</strong> ${new Date(sale.createdAt).toLocaleDateString('es-ES')}</p>
           </div>
           <div class="mt-4">
-            <h4 class="font-semibold mb-2">Productos:</h4>
+            <h4 class="font-semibold mb-2">Products:</h4>
             ${detailsHtml}
           </div>
         </div>

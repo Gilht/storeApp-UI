@@ -8,8 +8,8 @@ import Swal from 'sweetalert2';
   template: `
     <div class="mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="mb-8">
-        <h2 class="text-3xl font-bold text-gray-900">Gestión de Usuarios</h2>
-        <p class="mt-1 text-sm text-gray-600">Administra los usuarios del sistema</p>
+        <h2 class="text-3xl font-bold text-gray-900">User Administrator</h2>
+        <p class="mt-1 text-sm text-gray-600">System User Management Panel</p>
       </div>
 
       @if (isLoading()) {
@@ -97,14 +97,14 @@ export default class UsersListAdminComponent implements OnInit {
 
   async onDelete(userId: number, userName: string): Promise<void> {
     const result = await Swal.fire({
-      title: '¿Eliminar usuario?',
-      text: `¿Estás seguro de eliminar a "${userName}"?`,
+      title: '¿Delete user?',
+      text: `Are you sure you want to delete "${userName}"?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
       cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: 'Yes, delete',
+      cancelButtonText: 'Cancel'
     });
 
     if (result.isConfirmed) {
@@ -112,7 +112,7 @@ export default class UsersListAdminComponent implements OnInit {
         next: async () => {
           await Swal.fire({
             icon: 'success',
-            title: 'Usuario eliminado',
+            title: 'User deleted successfully',
             confirmButtonColor: '#f97316'
           });
           this.loadUsers();
@@ -121,7 +121,7 @@ export default class UsersListAdminComponent implements OnInit {
           await Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: error.error?.message || 'No se pudo eliminar el usuario',
+            text: error.error?.message || 'Failed to delete the user',
             confirmButtonColor: '#f97316'
           });
         }

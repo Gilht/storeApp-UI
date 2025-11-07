@@ -2,8 +2,12 @@
   @if (product(); as product) {
     <div class="product-container">
       <div class="product-wrapper">
-        <div class="product-image bg-gray-200 flex items-center justify-center">
-          <span class="text-gray-500 text-2xl">{{ product.name }}</span>
+        <div>
+           <img
+          [src]="product.imgUrl"
+          alt="Product image"
+          class="object-cover h-full w-full"
+        />
         </div>
         <div class="product-details">
           <h2 class="product-category">{{product.category?.name || 'Sin categoría'}}</h2>

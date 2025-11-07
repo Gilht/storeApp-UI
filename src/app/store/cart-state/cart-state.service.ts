@@ -15,7 +15,7 @@ export const initialCartState: CartStore = {
   productsCount: 0,
 };
 
-const CART_STORAGE_KEY = 'DOMINI_STORE_CART';
+const CART_STORAGE_KEY = 'DEV_STORE_CART';
 
 @Injectable({ providedIn: 'root' })
 export class CartStateService {
@@ -85,7 +85,7 @@ export class CartStateService {
       productsCount: this._cartCalculatorService.calculateItemsCount(updatedProducts),
     });
 
-    this._toastrService.success('Product added!!', 'DOMINI STORE');
+    this._toastrService.success('Product added!!', 'DEV STORE');
   }
 
   removeFromCart(productId: number): void {
@@ -100,7 +100,7 @@ export class CartStateService {
       productsCount: this._cartCalculatorService.calculateItemsCount(updatedProducts),
     });
 
-    this._toastrService.success('Product removed!!', 'DOMINI STORE');
+    this._toastrService.success('Product removed!!', 'DEV STORE');
   }
 
   updateQuantity(productId: number, quantity: number): void {
@@ -120,11 +120,11 @@ export class CartStateService {
       productsCount: this._cartCalculatorService.calculateItemsCount(updatedProducts),
     });
 
-    this._toastrService.success('Quantity updated!', 'DOMINI STORE');
+    this._toastrService.success('Quantity updated!', 'DEV STORE');
   }
 
   clearCart(): void {
     this._cartState.set(initialCartState);
-    this._toastrService.success('All Products removed!', 'DOMINI STORE');
+    this._toastrService.success('All Products removed!', 'DEV STORE');
   }
 }

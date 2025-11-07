@@ -1,8 +1,11 @@
 <div class="product-card">
   <div class="w-[280px] h-[450px] overflow-hidden bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
     <a class="product-image-link" [routerLink]="['/products', product().id]">
-      <div class="product-image bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center h-40 relative">
-        <span class="text-gray-400 text-sm font-semibold text-center px-3">{{ product().name }}</span>
+      <div>
+        <img
+          [src]="product().imgUrl"
+          alt="Product image"
+        />
       </div>
     </a>
 
